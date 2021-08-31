@@ -3,6 +3,7 @@
 
 
 <form method="post" enctype="multipart/form-data">
+    {% if request.user.is_superuser %}
     {% csrf_token %}
     {{ recipe_form.as_p }}
     {{ formset.management_form }}
@@ -10,6 +11,11 @@
     {{ form }}<br>
     {% endfor %} <br>
     <input class="btn btn-primary" type="submit" value="submit">
+    {% else %}
+    <br><br><br>
+    <h3>Вы не являетесь админом</h3>
+    {% endif %}
+
 
 </form>
 

@@ -28,7 +28,7 @@
 	<div class="posts">
 		{% for recipe in recipes %}
 		<article>
-			<a href="#" class="image"><img src="{{ recipe.get_image }}" style="width:200px; height:auto" alt="" /></a>
+			<a href="{% url 'detail' recipe.id %}" class="image"><img src="{{ recipe.get_image }}" style="width:200px; height:auto" alt="" /></a>
 			<h3>{{ recipe }}</h3>
 			<p>{{ recipe.description|truncatewords:20 }}</p>
 			<ul class="actions">

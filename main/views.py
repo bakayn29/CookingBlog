@@ -3,16 +3,21 @@ from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import *
 
-from .forms import RecipeForm, ImageForm
+from .forms import RecipeForm, ImageForm, AddCommentForm
 from .models import *
 
 
-# def index(request):
-#     recipes = Recipe.objects.all()
-#     return render(request, 'index.html', {'recipes': recipes})
+class AddCommentView(CreateView):
+    model = Comment
+    template_name = 'add-comment.html'
+    form_class = AddCommentForm
+
+    def get_success_url(self):
+        return reverse('detail', kwargs={'pk': self.kwargs['pk']})
+
 
 class MainPageView(ListView):
     model = Recipe
@@ -37,11 +42,6 @@ class MainPageView(ListView):
         return context
 
 
-# def category_detail(request, slug):
-#     category = Category.objects.get(slug=slug)
-#     recipes = Recipe.objects.filter(category_id=slug)
-#     return render(request, 'category-detail.html', locals())
-
 class CategoryDetailView(DetailView):
     model = Category
     template_name = 'category-detail.html'
@@ -58,12 +58,6 @@ class CategoryDetailView(DetailView):
         print(context)
         return context
 
-
-# def recipe_detail(request, pk):
-#     recipe = get_object_or_404(Recipe, pk=pk)
-#     image = recipe.get_image
-#     images = recipe.images.exclude(id=image.id)
-#     return render(request, 'recipe-detail.html', locals())
 
 class RecipeDetailView(DetailView):
     model = Recipe

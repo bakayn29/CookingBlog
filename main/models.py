@@ -36,10 +36,10 @@ class Recipe(models.Model):
     def get_image(self):
         return self.images.first()
 
-
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('detail', kwargs={'pk': self.pk})
+
 
 class Image(models.Model):
     image = models.ImageField(upload_to='recipes')
@@ -47,3 +47,13 @@ class Image(models.Model):
 
     def __str__(self):
         return self.image.url
+
+
+class Comment(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='comments')
+    name = models.CharField(max_length=55, null=True, blank=True)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} -> {self.body}"

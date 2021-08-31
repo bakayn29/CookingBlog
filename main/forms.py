@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django import forms
 
-from main.models import Recipe, Image
+from main.models import Recipe, Image, Comment
 
 
 class RecipeForm(forms.ModelForm):
@@ -17,3 +17,9 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = ('image', )
+
+
+class AddCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('body', 'name', 'recipe')
